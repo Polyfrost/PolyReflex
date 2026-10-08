@@ -1,0 +1,14 @@
+{
+  "required": true,
+  "package": "org.polyfrost.polyreflex.mixin",
+  "compatibilityLevel": "JAVA_25",
+  "client": [
+    "MinecraftMixin",
+    "VulkanBackendMixin",
+    "VulkanGpuSurfaceMixin",
+    "VulkanQueueSubmissionMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "schemaVersion": 1,
+  "id": "polyreflex",
+  "version": "${version}",
+  "name": "PolyReflex",
+  "description": "Driver-level NVIDIA Reflex (VK_NV_low_latency2) and AMD Anti-Lag 2 (VK_AMD_anti_lag) for the Vulkan backend, with a GPU-sync fallback for devices that have neither (macOS/MoltenVK, Intel).",
+  "environment": "client",
+  "mixins": ["polyreflex.mixins.json"],
+  "depends": {
+    "fabricloader": ">=0.19",
+    "minecraft": "~${minecraft}"
+  }
+}
