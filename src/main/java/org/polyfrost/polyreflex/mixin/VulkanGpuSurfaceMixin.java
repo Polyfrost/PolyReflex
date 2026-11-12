@@ -2,7 +2,6 @@ package org.polyfrost.polyreflex.mixin;
 
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
-import com.mojang.renderpearl.backend.vulkan.VulkanGpuSurface;
 import java.nio.LongBuffer;
 import org.lwjgl.system.MemoryStack;
 import org.lwjgl.vulkan.VkAllocationCallbacks;
@@ -15,8 +14,18 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.polyfrost.polyreflex.LowLatency;
+//? if >=26.2 {
+import com.mojang.renderpearl.backend.vulkan.VulkanGpuSurface;
+//?} else {
+/*import org.spongepowered.asm.mixin.Pseudo;
+*///?}
 
+//? if >=26.2 {
 @Mixin(VulkanGpuSurface.class)
+//?} else {
+/*@Pseudo
+@Mixin(targets = "org.polyfrost.polydium.vulkan.VulkanGpuSurface")
+*///?}
 public class VulkanGpuSurfaceMixin {
     @WrapOperation(
         method = "configure",

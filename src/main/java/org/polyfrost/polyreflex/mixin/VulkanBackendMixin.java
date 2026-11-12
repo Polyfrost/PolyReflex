@@ -2,17 +2,27 @@ package org.polyfrost.polyreflex.mixin;
 
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
-import com.mojang.renderpearl.backend.vulkan.VulkanBackend;
 import org.lwjgl.PointerBuffer;
-import org.lwjgl.vulkan.VkAllocationCallbacks;
 import org.lwjgl.vulkan.VkDeviceCreateInfo;
 import org.lwjgl.vulkan.VkPhysicalDevice;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.polyfrost.polyreflex.LowLatency;
+//? if >=26.2 {
+import com.mojang.renderpearl.backend.vulkan.VulkanBackend;
+import org.lwjgl.vulkan.VkAllocationCallbacks;
+//?} else {
+/*import org.spongepowered.asm.mixin.Pseudo;
+*///?}
 
+//? if >=26.2 {
 @Mixin(VulkanBackend.class)
+//?} else {
+/*@Pseudo
+@Mixin(targets = "org.polyfrost.polydium.vulkan.VulkanBackend")
+*///?}
 public class VulkanBackendMixin {
+    //? if >=26.2 {
     @WrapOperation(
         //? if >=26.3 {
         method = "createDevice(Lcom/mojang/renderpearl/backend/vulkan/init/FeatureSet;Lcom/mojang/renderpearl/backend/vulkan/VulkanPhysicalDevice;)Lorg/lwjgl/vulkan/VkDevice;",
@@ -34,4 +44,22 @@ public class VulkanBackendMixin {
         LowLatency.addDeviceExtensions(physicalDevice, info);
         return original.call(physicalDevice, info, allocator, devicePtr);
     }
+    //?} else {
+    /*@WrapOperation(
+        method = "createDevice(Ljava/util/Collection;Lorg/polyfrost/polydium/vulkan/VulkanPhysicalDevice;Ljava/util/Set;)Lorg/lwjgl/vulkan/VkDevice;",
+        at = @At(
+            value = "INVOKE",
+            target = "Lorg/polyfrost/polydium/vulkan/SlipstreamMac;createDevice(Lorg/lwjgl/vulkan/VkPhysicalDevice;Lorg/lwjgl/vulkan/VkDeviceCreateInfo;Lorg/lwjgl/PointerBuffer;)I"
+        )
+    )
+    private static int polyreflex$createDevice(
+        final VkPhysicalDevice physicalDevice,
+        final VkDeviceCreateInfo info,
+        final PointerBuffer devicePtr,
+        final Operation<Integer> original
+    ) {
+        LowLatency.addDeviceExtensions(physicalDevice, info);
+        return original.call(physicalDevice, info, devicePtr);
+    }
+    *///?}
 }

@@ -1,9 +1,13 @@
 {
   "required": true,
   "package": "org.polyfrost.polyreflex.mixin",
-  "compatibilityLevel": "JAVA_25",
+  "compatibilityLevel": "JAVA_21",
   "client": [
+    "FramePathMixin",
     "MinecraftMixin",
+    "PresentThreadMixin",
+    //? if < 26.1
+    //"RenderSystemMixin",
     "VulkanBackendMixin",
     "VulkanGpuSurfaceMixin",
     "VulkanQueueSubmissionMixin"

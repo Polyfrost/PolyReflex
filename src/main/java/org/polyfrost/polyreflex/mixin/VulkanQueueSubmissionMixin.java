@@ -2,15 +2,24 @@ package org.polyfrost.polyreflex.mixin;
 
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
-import com.mojang.renderpearl.backend.vulkan.VulkanQueue;
 import org.lwjgl.system.MemoryStack;
 import org.lwjgl.vulkan.VkQueue;
 import org.lwjgl.vulkan.VkSubmitInfo2;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.polyfrost.polyreflex.LowLatency;
+//? if >=26.2 {
+import com.mojang.renderpearl.backend.vulkan.VulkanQueue;
+//?} else {
+/*import org.spongepowered.asm.mixin.Pseudo;
+*///?}
 
+//? if >=26.2 {
 @Mixin(VulkanQueue.Submission.class)
+//?} else {
+/*@Pseudo
+@Mixin(targets = "org.polyfrost.polydium.vulkan.VulkanQueue$Submission")
+*///?}
 public class VulkanQueueSubmissionMixin {
     @WrapOperation(
         method = "close",

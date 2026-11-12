@@ -3,11 +3,11 @@
   "id": "polyreflex",
   "version": "${version}",
   "name": "PolyReflex",
-  "description": "Driver-level NVIDIA Reflex / AMD Anti-Lag 2 / macOS Metal input latency reduction implementation for Minecraft 26.2+ Vulkan",
+  "description": "Driver-level NVIDIA Reflex / AMD Anti-Lag 2 / macOS Metal input latency reduction implementation for Minecraft Vulkan (26.2+, or 1.21.11/26.1 with Polydium)",
   "environment": "client",
   "mixins": ["polyreflex.mixins.json"],
   "depends": {
     "fabricloader": ">=0.19",
-    "minecraft": "~${minecraft}"
+    "minecraft": "~${minecraft}"${polydium}
   }
 }

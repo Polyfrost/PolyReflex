@@ -15,6 +15,7 @@ public abstract class MinecraftMixin {
     @Shadow
     public abstract FramerateLimitTracker getFramerateLimitTracker();
 
+    //? if >=26.1 {
     @Inject(
         method = "run",
         //? if >=26.3 {
@@ -26,9 +27,14 @@ public abstract class MinecraftMixin {
     private void polyreflex$frameStart(final CallbackInfo ci) {
         LowLatency.frameStart(this.getFramerateLimitTracker().getFramerateLimit());
     }
+    //?}
 
     @Inject(
+        //? if >=26.1 {
         method = "renderFrame",
+        //?} else {
+        /*method = "runTick",
+        *///?}
         //? if >=26.3 {
         at = @At(value = "INVOKE", target = "Lnet/minecraft/client/renderer/GameRenderer;render()V")
         //?} else {
@@ -40,7 +46,11 @@ public abstract class MinecraftMixin {
     }
 
     /** The limit is forwarded to the driver in frameStart; sleeping here as well would only add latency. */
+    //? if >=26.1 {
     @WrapWithCondition(method = "renderFrame", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/FramerateLimiter;limitDisplayFPS(I)V"))
+    //?} else {
+    /*@WrapWithCondition(method = "runTick", at = @At(value = "INVOKE", target = "Lcom/mojang/blaze3d/systems/RenderSystem;limitDisplayFPS(I)V"))
+    *///?}
     private boolean polyreflex$skipVanillaLimiter(final int framerateLimit) {
         return !LowLatency.limitsFps();
     }
